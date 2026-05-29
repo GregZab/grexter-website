@@ -1,67 +1,507 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Grexter — TMSolo brand operator</title>
-<meta name="description" content="Grexter is a sole proprietorship operated by Grzegorz Zabrzański (Kraków, Poland) that designs, sources, and sells the TMSolo brand of picture frames on Amazon UK and EU marketplaces.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grexter — AI Automation Studio</title>
+<meta name="description" content="Grexter is an AI automation studio. We design, ship, and operate the intelligent systems behind modern commerce and operations.">
+<meta name="theme-color" content="#0A0C12">
+<meta property="og:title" content="Grexter — AI Automation Studio">
+<meta property="og:description" content="We build AI systems that run businesses on autopilot.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://grexter.pl">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root { color-scheme: light dark; }
-  * { box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 780px; margin: 0 auto; padding: 3rem 1.5rem; line-height: 1.6; color: #1c1c1e; background: #ffffff; }
-  header { border-bottom: 1px solid #e5e5ea; padding-bottom: 1.5rem; margin-bottom: 2rem; }
-  .brand { font-size: 2rem; font-weight: 700; letter-spacing: -0.5px; }
-  .tagline { color: #6b6b6b; margin-top: 0.25rem; }
-  h2 { font-size: 1.2rem; margin-top: 2.5rem; }
-  ul { padding-left: 1.25rem; }
-  li { margin-bottom: 0.4rem; }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 2rem; margin-top: 1rem; }
-  .grid .label { color: #6b6b6b; font-size: 0.9rem; }
-  a { color: #007aff; }
-  footer { color: #6b6b6b; font-size: 0.85rem; margin-top: 3rem; border-top: 1px solid #e5e5ea; padding-top: 1.5rem; }
-  @media (prefers-color-scheme: dark) {
-    body { color: #f2f2f7; background: #1c1c1e; }
-    header, footer { border-color: #3a3a3c; }
-    .tagline, .grid .label, footer { color: #aeaeb2; }
+  :root{
+    --ink:#0A0C12;
+    --ink-2:#0E1118;
+    --ink-3:#11141C;
+    --line:#1E2330;
+    --line-soft:#171B26;
+    --text:#E6E9F0;
+    --text-2:#8A91A6;
+    --text-3:#565E73;
+    --accent:#8FA0D9;
+    --accent-dim:#5B6790;
+    --accent-glow:rgba(143,160,217,.16);
+    --mono:'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    --sans:'Schibsted Grotesk', system-ui, sans-serif;
+    --maxw:1120px;
   }
-  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* atmospheric depth — behind content, never mutes it */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(70% 48% at 50% -6%, rgba(143,160,217,.10), transparent 68%),
+      radial-gradient(90% 55% at 50% 112%, rgba(91,103,144,.06), transparent 70%);
+  }
+  #neural{position:fixed;inset:0;z-index:0;display:block}
+  .wrap{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  a{color:inherit;text-decoration:none}
+
+  /* mono label */
+  .label{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-3);font-weight:500}
+  .accent{color:var(--accent)}
+
+  /* ---------- NAV ---------- */
+  header{position:fixed;top:0;left:0;right:0;z-index:10;backdrop-filter:blur(8px);
+    background:linear-gradient(to bottom, rgba(10,12,18,.85), rgba(10,12,18,.35));
+    border-bottom:1px solid transparent;transition:border-color .3s}
+  header.scrolled{border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{font-family:var(--mono);font-weight:600;font-size:16px;letter-spacing:.04em;display:flex;align-items:center;gap:2px}
+  .brand .slash{color:var(--accent-dim)}
+  .nav-right{display:flex;align-items:center;gap:22px}
+  .status{display:none;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;color:var(--text-2);letter-spacing:.04em}
+  .status .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 var(--accent-glow);animation:pulse 2.6s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(143,160,217,.4)}70%{box-shadow:0 0 0 7px rgba(143,160,217,0)}100%{box-shadow:0 0 0 0 rgba(143,160,217,0)}}
+  .lang{display:flex;font-family:var(--mono);font-size:12px;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+  .lang button{background:transparent;border:none;color:var(--text-3);padding:5px 10px;cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.06em;transition:.2s}
+  .lang button.on{background:var(--accent);color:var(--ink);font-weight:600}
+  .lang button:not(.on):hover{color:var(--text)}
+  @media(min-width:760px){.status{display:flex}}
+
+  /* ---------- HERO ---------- */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:64px;padding-bottom:60px}
+  .term{font-family:var(--mono);font-size:13px;color:var(--text-2);margin-bottom:26px;letter-spacing:.02em}
+  .term .p{color:var(--accent-dim)}
+  .cursor{display:inline-block;width:8px;height:15px;background:var(--accent);margin-left:3px;vertical-align:-2px;animation:blink 1.1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  h1{font-size:clamp(38px,6.4vw,76px);line-height:1.04;font-weight:700;letter-spacing:-.02em;max-width:16ch}
+  h1 .soft{color:var(--text-2)}
+  .sub{margin-top:26px;font-size:clamp(16px,2vw,20px);color:var(--text-2);max-width:56ch;font-weight:400}
+  .chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:34px}
+  .chip{font-family:var(--mono);font-size:12px;color:var(--text-2);border:1px solid var(--line);
+    border-radius:999px;padding:7px 14px;letter-spacing:.02em;transition:.25s;background:rgba(14,17,24,.4)}
+  .chip::before{content:"> ";color:var(--accent-dim)}
+  .chip:hover{border-color:var(--accent-dim);color:var(--text);transform:translateY(-1px)}
+  .cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:42px}
+  .btn{font-family:var(--mono);font-size:13px;letter-spacing:.04em;padding:13px 22px;border-radius:8px;cursor:pointer;transition:.25s;display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line)}
+  .btn-primary{background:var(--accent);color:var(--ink);border-color:var(--accent);font-weight:600}
+  .btn-primary:hover{background:#a3b2e3;box-shadow:0 8px 30px var(--accent-glow);transform:translateY(-2px)}
+  .btn-ghost{color:var(--text);background:rgba(14,17,24,.3)}
+  .btn-ghost:hover{border-color:var(--accent-dim);background:var(--ink-3)}
+  .arr{transition:transform .25s}
+  .btn:hover .arr{transform:translateX(4px)}
+  .stats{display:flex;flex-wrap:wrap;gap:0;margin-top:62px;border-top:1px solid var(--line);padding-top:22px;font-family:var(--mono);font-size:12px;color:var(--text-3)}
+  .stats span{padding-right:22px;margin-right:22px;border-right:1px solid var(--line-soft);letter-spacing:.03em}
+  .stats span:last-child{border-right:none}
+  .stats b{color:var(--text);font-weight:600}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:104px 0;border-top:1px solid var(--line-soft)}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:54px}
+  .sec-head .num{font-family:var(--mono);font-size:12px;color:var(--accent-dim);letter-spacing:.1em}
+  .sec-head h2{font-size:clamp(26px,3.6vw,40px);font-weight:600;letter-spacing:-.015em}
+
+  /* capabilities grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:14px;overflow:hidden}
+  .card{background:var(--ink-2);padding:34px 30px;transition:.3s;position:relative}
+  .card:hover{background:var(--ink-3)}
+  .card .k{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:18px;display:flex;align-items:center;gap:9px}
+  .card .k .ix{color:var(--text-3)}
+  .card h3{font-size:21px;font-weight:600;margin-bottom:12px;letter-spacing:-.01em}
+  .card p{font-size:15px;color:var(--text-2);font-weight:400}
+  .tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:20px}
+  .tag{font-family:var(--mono);font-size:11px;color:var(--text-3);background:var(--ink);border:1px solid var(--line);border-radius:5px;padding:4px 9px;letter-spacing:.02em}
+  .card::after{content:"";position:absolute;left:0;top:0;width:100%;height:2px;background:linear-gradient(90deg,var(--accent),transparent);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+  .card:hover::after{transform:scaleX(1)}
+
+  /* work / case readouts */
+  .case{border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,var(--ink-2),var(--ink));overflow:hidden;margin-bottom:22px;transition:.3s}
+  .case:hover{border-color:var(--accent-dim);box-shadow:0 10px 40px rgba(0,0,0,.4)}
+  .case-bar{display:flex;align-items:center;gap:8px;padding:13px 20px;border-bottom:1px solid var(--line-soft);font-family:var(--mono);font-size:12px;color:var(--text-3)}
+  .case-bar .d{width:11px;height:11px;border-radius:50%;background:var(--line)}
+  .case-bar .d:nth-child(1){background:#2a2f3d}
+  .case-bar .fn{margin-left:8px;color:var(--text-2)}
+  .case-body{padding:30px 26px 28px}
+  .case .id{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.16em;text-transform:uppercase}
+  .case h3{font-size:23px;font-weight:600;margin:12px 0 14px;letter-spacing:-.01em}
+  .case p{color:var(--text-2);font-size:15.5px;max-width:74ch}
+  .metrics{display:flex;flex-wrap:wrap;gap:0;margin-top:24px;font-family:var(--mono)}
+  .metrics div{padding-right:26px;margin-right:26px;border-right:1px solid var(--line-soft)}
+  .metrics div:last-child{border:none;margin:0;padding:0}
+  .metrics .v{display:block;font-size:22px;color:var(--text);font-weight:500}
+  .metrics .l{font-size:11px;color:var(--text-3);letter-spacing:.08em;text-transform:uppercase}
+
+  /* stack */
+  .stack{border:1px solid var(--line);border-radius:14px;background:var(--ink-2);overflow:hidden;font-family:var(--mono)}
+  .stack-bar{padding:13px 20px;border-bottom:1px solid var(--line-soft);font-size:12px;color:var(--text-2)}
+  .stack-bar .p{color:var(--accent-dim)}
+  .stack-body{padding:8px 0}
+  .stack-row{display:flex;gap:16px;padding:11px 22px;font-size:13.5px;align-items:baseline;transition:.2s}
+  .stack-row:hover{background:var(--ink-3)}
+  .stack-row .n{color:var(--accent-dim);width:24px;flex:none}
+  .stack-row .name{color:var(--text);min-width:150px;flex:none}
+  .stack-row .desc{color:var(--text-3)}
+  @media(max-width:600px){.stack-row{flex-wrap:wrap}.stack-row .desc{flex-basis:100%;padding-left:40px}}
+
+  /* contact */
+  .contact{text-align:center;padding:120px 0}
+  .contact h2{font-size:clamp(30px,5vw,56px);font-weight:700;letter-spacing:-.02em;max-width:18ch;margin:0 auto 18px}
+  .contact p{color:var(--text-2);max-width:48ch;margin:0 auto 36px;font-size:17px}
+  .who{margin-top:54px;font-family:var(--mono);font-size:12.5px;color:var(--text-3);line-height:1.9}
+  .who .accent{color:var(--text-2)}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:34px 0;font-family:var(--mono);font-size:11.5px;color:var(--text-3)}
+  .foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;align-items:center;letter-spacing:.02em}
+  .foot a:hover{color:var(--accent)}
+  .foot .sep{color:var(--line)}
+
+  /* reveal animation */
+  .rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;transform:none}
+  [data-d="1"]{transition-delay:.08s}[data-d="2"]{transition-delay:.16s}[data-d="3"]{transition-delay:.24s}[data-d="4"]{transition-delay:.32s}
+
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .rv{opacity:1;transform:none}
+    html{scroll-behavior:auto}
+  }
 </style>
 </head>
 <body>
+<canvas id="neural"></canvas>
 
-<header>
-  <div class="brand">Grexter</div>
-  <div class="tagline">Operator of the <strong>TMSolo</strong> brand · picture frames for Amazon UK &amp; EU</div>
+<header id="hdr">
+  <div class="wrap nav">
+    <div class="brand">GREXTER<span class="slash">&nbsp;///</span></div>
+    <div class="nav-right">
+      <div class="status"><span class="dot"></span><span data-en="all systems operational" data-pl="systemy operacyjne">all systems operational</span></div>
+      <div class="lang" role="group" aria-label="language">
+        <button data-lang="pl">PL</button><button data-lang="en" class="on">EN</button>
+      </div>
+    </div>
+  </div>
 </header>
 
-<p>Grexter is a Polish sole proprietorship operated by <strong>Grzegorz Zabrzański</strong>. We design, source, and sell <strong>TMSolo</strong> branded picture frames (anti-reflective glass, premium clip-on systems, and decorative formats) through Amazon's UK and European marketplaces. TMSolo is our registered trademark and the brand under which we serve retail customers.</p>
+<main>
+  <!-- HERO -->
+  <section class="hero" style="border-top:none">
+    <div class="wrap">
+      <div class="term"><span class="p">grexter@ai</span>:<span style="color:var(--accent-dim)">~</span>$ <span id="typed"></span><span class="cursor"></span></div>
+      <h1 data-en='We build AI systems that <span class="soft">run businesses on autopilot.</span>'
+          data-pl='Budujemy systemy AI, które <span class="soft">prowadzą biznes na autopilocie.</span>'>We build AI systems that <span class="soft">run businesses on autopilot.</span></h1>
+      <p class="sub" data-en="Grexter is an AI automation studio. We design, ship, and operate the intelligent systems behind modern commerce and operations."
+         data-pl="Grexter to studio automatyzacji AI. Projektujemy, wdrażamy i utrzymujemy inteligentne systemy stojące za nowoczesnym handlem i operacjami.">Grexter is an AI automation studio. We design, ship, and operate the intelligent systems behind modern commerce and operations.</p>
+      <div class="chips">
+        <span class="chip" data-en="marketplace ops" data-pl="operacje marketplace">marketplace ops</span>
+        <span class="chip" data-en="document intelligence" data-pl="analiza dokumentów">document intelligence</span>
+        <span class="chip" data-en="custom AI agents" data-pl="własne agenty AI">custom AI agents</span>
+        <span class="chip" data-en="data pipelines" data-pl="pipeline'y danych">data pipelines</span>
+      </div>
+      <div class="cta">
+        <a href="#work" class="btn btn-primary" data-en="See what we've built &nbsp;<span class='arr'>&#8594;</span>" data-pl="Zobacz, co zbudowaliśmy &nbsp;<span class='arr'>&#8594;</span>">See what we've built &nbsp;<span class="arr">&#8594;</span></a>
+        <a href="#contact" class="btn btn-ghost" data-en="Start a project" data-pl="Zacznij projekt">Start a project</a>
+      </div>
+      <div class="stats">
+        <span><b>6</b> <span data-en="marketplaces" data-pl="marketplace'y">marketplaces</span></span>
+        <span><b>24/7</b> <span data-en="autonomous" data-pl="autonomicznie">autonomous</span></span>
+        <span><b>1000s</b> <span data-en="of docs indexed" data-pl="zaindeksowanych dok.">of docs indexed</span></span>
+        <span><b>EU</b> <span data-en="compliant" data-pl="zgodność">compliant</span></span>
+      </div>
+    </div>
+  </section>
 
-<h2>What we do</h2>
-<ul>
-  <li>Design and source picture-frame product lines (Anti-reflective P2/P3/P5 series, clip frames, decorative panels).</li>
-  <li>Manage the TMSolo brand on Amazon Brand Registry across UK, DE, FR, IT, ES marketplaces.</li>
-  <li>Operate Amazon Sponsored Products, Sponsored Brands, and Brand Store advertising for TMSolo.</li>
-  <li>Handle compliance (GPSR, GS1 GTINs, VbG enrollment) and EU-wide FBA fulfilment.</li>
-</ul>
+  <!-- CAPABILITIES -->
+  <section id="capabilities">
+    <div class="wrap">
+      <div class="sec-head rv"><span class="num">01</span><h2 data-en="What we do" data-pl="Czym się zajmujemy">What we do</h2></div>
+      <div class="grid">
+        <div class="card rv" data-d="1">
+          <div class="k"><span class="ix">01</span> <span data-en="Marketplace Automation" data-pl="Automatyzacja Marketplace">Marketplace Automation</span></div>
+          <h3 data-en="Storefronts that run themselves" data-pl="Sklepy, które działają same">Storefronts that run themselves</h3>
+          <p data-en="Self-running brands on Amazon UK &amp; EU — repricing, listings, feeds, advertising, and GPSR/GS1 compliance handled by code, not headcount."
+             data-pl="Samodzielnie działające marki na Amazon UK i EU — repricing, listingi, feedy, reklama oraz zgodność GPSR/GS1 obsługiwane przez kod, nie przez ludzi.">Self-running brands on Amazon UK &amp; EU — repricing, listings, feeds, advertising, and GPSR/GS1 compliance handled by code, not headcount.</p>
+          <div class="tags"><span class="tag">SP-API</span><span class="tag">repricer</span><span class="tag">feeds</span><span class="tag">compliance</span></div>
+        </div>
+        <div class="card rv" data-d="2">
+          <div class="k"><span class="ix">02</span> <span data-en="Document Intelligence" data-pl="Analiza Dokumentów">Document Intelligence</span></div>
+          <h3 data-en="Every document, searchable" data-pl="Każdy dokument, wyszukiwalny">Every document, searchable</h3>
+          <p data-en="OCR, vectorization, and retrieval across thousands of documents and emails. Ask in plain language — get the exact source back, in any language."
+             data-pl="OCR, wektoryzacja i wyszukiwanie w tysiącach dokumentów i maili. Pytaj naturalnym językiem — dostajesz dokładne źródło, w dowolnym języku.">OCR, vectorization, and retrieval across thousands of documents and emails. Ask in plain language — get the exact source back, in any language.</p>
+          <div class="tags"><span class="tag">RAG</span><span class="tag">OCR</span><span class="tag">embeddings</span><span class="tag">multilingual</span></div>
+        </div>
+        <div class="card rv" data-d="3">
+          <div class="k"><span class="ix">03</span> <span data-en="Custom AI Agents" data-pl="Własne Agenty AI">Custom AI Agents</span></div>
+          <h3 data-en="Software that decides and acts" data-pl="Software, który decyduje i działa">Software that decides and acts</h3>
+          <p data-en="Autonomous agents that read, reason, and act across your tools — from inbox triage to multi-step operational workflows."
+             data-pl="Autonomiczne agenty, które czytają, wnioskują i działają w Twoich narzędziach — od segregacji skrzynki po wieloetapowe procesy operacyjne.">Autonomous agents that read, reason, and act across your tools — from inbox triage to multi-step operational workflows.</p>
+          <div class="tags"><span class="tag">LLM agents</span><span class="tag">tool use</span><span class="tag">orchestration</span></div>
+        </div>
+        <div class="card rv" data-d="4">
+          <div class="k"><span class="ix">04</span> <span data-en="Data Pipelines" data-pl="Pipeline'y Danych">Data Pipelines</span></div>
+          <h3 data-en="Messy input, clean data" data-pl="Bałagan na wejściu, czyste dane">Messy input, clean data</h3>
+          <p data-en="Ingestion, parsing, and reconciliation pipelines that turn raw inputs into clean, queryable data — running on schedule, unattended."
+             data-pl="Pipeline'y do ingestii, parsowania i uzgadniania, które zamieniają surowe dane w czyste i zapytywalne — działające wg harmonogramu, bez nadzoru.">Ingestion, parsing, and reconciliation pipelines that turn raw inputs into clean, queryable data — running on schedule, unattended.</p>
+          <div class="tags"><span class="tag">ETL</span><span class="tag">scheduling</span><span class="tag">SQL</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<h2>Company details</h2>
-<div class="grid">
-  <div class="label">Legal name</div><div>Grzegorz Zabrzański Grexter</div>
-  <div class="label">Country</div><div>Poland</div>
-  <div class="label">Tax ID (NIP)</div><div>6781767201</div>
-  <div class="label">REGON</div><div>543538420</div>
-  <div class="label">Brand</div><div>TMSolo (Amazon Brand Registry)</div>
-  <div class="label">Marketplaces</div><div>Amazon UK · DE · FR · IT · ES</div>
-  <div class="label">Contact</div><div><a href="mailto:greg@grexter.pl">greg@grexter.pl</a></div>
-  <div class="label">Privacy policy</div><div><a href="https://gregzab.github.io/grexter-privacy/">gregzab.github.io/grexter-privacy</a></div>
-</div>
+  <!-- WORK -->
+  <section id="work">
+    <div class="wrap">
+      <div class="sec-head rv"><span class="num">02</span><h2 data-en="Selected work" data-pl="Wybrane realizacje">Selected work</h2></div>
 
-<h2>Find our products</h2>
-<p>TMSolo products are available on Amazon UK and EU marketplaces. Search "TMSolo" on your local Amazon site to browse our current catalogue of anti-reflective frames, clip frames, and decorative panels.</p>
+      <div class="case rv">
+        <div class="case-bar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="fn">case_01_marketplace.log</span></div>
+        <div class="case-body">
+          <span class="id">// multi-marketplace operation</span>
+          <h3 data-en="A picture-frame brand, run by software" data-pl="Marka ramek prowadzona przez software">A picture-frame brand, run by software</h3>
+          <p data-en="Designed and operate a consumer brand across six Amazon marketplaces. Automated listings, pan-EU inventory, repricing, and EU product compliance (GPSR, GS1) — coordinated end-to-end without a manual ops team."
+             data-pl="Zaprojektowaliśmy i prowadzimy markę konsumencką na sześciu marketplace'ach Amazon. Zautomatyzowane listingi, magazyn pan-EU, repricing i zgodność produktowa UE (GPSR, GS1) — koordynowane end-to-end bez ręcznego zespołu operacyjnego.">Designed and operate a consumer brand across six Amazon marketplaces. Automated listings, pan-EU inventory, repricing, and EU product compliance (GPSR, GS1) — coordinated end-to-end without a manual ops team.</p>
+          <div class="metrics">
+            <div><span class="v">6</span><span class="l" data-en="marketplaces" data-pl="marketplace'y">marketplaces</span></div>
+            <div><span class="v">100s</span><span class="l" data-en="of SKUs" data-pl="SKU">of SKUs</span></div>
+            <div><span class="v">auto</span><span class="l" data-en="compliance" data-pl="zgodność">compliance</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case rv">
+        <div class="case-bar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="fn">case_02_brain.log</span></div>
+        <div class="case-body">
+          <span class="id">// document intelligence</span>
+          <h3 data-en="A searchable brain over years of files" data-pl="Wyszukiwalny mózg nad latami plików">A searchable brain over years of files</h3>
+          <p data-en="An indexing pipeline over cloud drives and email with OCR and multilingual embeddings. Daily vectorization keeps it current; anyone can retrieve the exact answer from the entire corpus in natural language."
+             data-pl="Pipeline indeksujący dyski w chmurze i pocztę, z OCR i wielojęzycznymi embeddingami. Codzienna wektoryzacja utrzymuje aktualność; każdy może wydobyć dokładną odpowiedź z całego korpusu naturalnym językiem.">An indexing pipeline over cloud drives and email with OCR and multilingual embeddings. Daily vectorization keeps it current; anyone can retrieve the exact answer from the entire corpus in natural language.</p>
+          <div class="metrics">
+            <div><span class="v">1000s</span><span class="l" data-en="of documents" data-pl="dokumentów">of documents</span></div>
+            <div><span class="v">daily</span><span class="l" data-en="refresh" data-pl="odświeżanie">refresh</span></div>
+            <div><span class="v">multi</span><span class="l" data-en="lingual" data-pl="język">lingual</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case rv">
+        <div class="case-bar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="fn">case_03_voice.log</span></div>
+        <div class="case-body">
+          <span class="id">// voice &amp; workflow automation</span>
+          <h3 data-en="Voice to clean text, for cents" data-pl="Głos w czysty tekst, za grosze">Voice to clean text, for cents</h3>
+          <p data-en="A speech-to-text pipeline with LLM cleanup, re-architected to swap models on the fly and cut cost to a fraction of a cent per event — roughly a 7× reduction — with no loss in quality."
+             data-pl="Pipeline mowa-na-tekst z czyszczeniem przez LLM, przebudowany tak, by wymieniać modele w locie i zbić koszt do ułamka grosza za zdarzenie — około 7× taniej — bez utraty jakości.">A speech-to-text pipeline with LLM cleanup, re-architected to swap models on the fly and cut cost to a fraction of a cent per event — roughly a 7× reduction — with no loss in quality.</p>
+          <div class="metrics">
+            <div><span class="v">~7×</span><span class="l" data-en="cheaper" data-pl="taniej">cheaper</span></div>
+            <div><span class="v">live</span><span class="l" data-en="in production" data-pl="na produkcji">in production</span></div>
+            <div><span class="v">multi</span><span class="l" data-en="lingual" data-pl="język">lingual</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section id="stack">
+    <div class="wrap">
+      <div class="sec-head rv"><span class="num">03</span><h2 data-en="The stack" data-pl="Stack">The stack</h2></div>
+      <div class="stack rv">
+        <div class="stack-bar"><span class="p">grexter@ai</span>:~$ cat stack.txt</div>
+        <div class="stack-body">
+          <div class="stack-row"><span class="n">01</span><span class="name">Claude / LLMs</span><span class="desc" data-en="reasoning, agents, content — right model for each job" data-pl="rozumowanie, agenty, treści — właściwy model do zadania">reasoning, agents, content — right model for each job</span></div>
+          <div class="stack-row"><span class="n">02</span><span class="name">Python</span><span class="desc" data-en="the glue — pipelines, automation, integrations" data-pl="spoiwo — pipeline'y, automatyzacja, integracje">the glue — pipelines, automation, integrations</span></div>
+          <div class="stack-row"><span class="n">03</span><span class="name">Amazon SP-API</span><span class="desc" data-en="listings, feeds, inventory, advertising" data-pl="listingi, feedy, magazyn, reklama">listings, feeds, inventory, advertising</span></div>
+          <div class="stack-row"><span class="n">04</span><span class="name">Vector search</span><span class="desc" data-en="multilingual embeddings + OCR retrieval" data-pl="wielojęzyczne embeddingi + wyszukiwanie OCR">multilingual embeddings + OCR retrieval</span></div>
+          <div class="stack-row"><span class="n">05</span><span class="name">Whisper</span><span class="desc" data-en="speech-to-text at scale" data-pl="mowa-na-tekst na skalę">speech-to-text at scale</span></div>
+          <div class="stack-row"><span class="n">06</span><span class="name">Cron + cloud</span><span class="desc" data-en="unattended orchestration, 24/7 uptime" data-pl="bezobsługowa orkiestracja, dostępność 24/7">unattended orchestration, 24/7 uptime</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="border-top:1px solid var(--line)">
+    <div class="wrap contact">
+      <span class="label rv" data-en="// start a project" data-pl="// zacznij projekt">// start a project</span>
+      <h2 class="rv" data-d="1" data-en="Have a process that should run itself?" data-pl="Masz proces, który powinien działać sam?">Have a process that should run itself?</h2>
+      <p class="rv" data-d="2" data-en="Tell us what's eating your time. If it can be automated with AI, we'll design, build, and run it." data-pl="Powiedz, co zjada Twój czas. Jeśli da się to zautomatyzować z AI — zaprojektujemy, zbudujemy i poprowadzimy.">Tell us what's eating your time. If it can be automated with AI, we'll design, build, and run it.</p>
+      <a class="btn btn-primary rv" data-d="3" href="mailto:greg@grexter.pl?subject=Project%20inquiry%20—%20Grexter" data-en="greg@grexter.pl &nbsp;<span class='arr'>&#8594;</span>" data-pl="greg@grexter.pl &nbsp;<span class='arr'>&#8594;</span>">greg@grexter.pl &nbsp;<span class="arr">&#8594;</span></a>
+      <div class="who rv" data-d="4">
+        <span data-en="Engineering-led, operated by " data-pl="Prowadzone inżyniersko, przez ">Engineering-led, operated by </span><span class="accent">Grzegorz Zabrzański</span>.<br>
+        <span data-en="Based in Kraków · working across the EU" data-pl="Kraków · działamy w całej UE">Based in Kraków · working across the EU</span>
+      </div>
+    </div>
+  </section>
+</main>
 
 <footer>
-© 2026 Grzegorz Zabrzański Grexter · Kraków, Poland · NIP 6781767201 · made by <a href="https://gregzab.github.io/grexter-website/" style="color:inherit">grexter.pl</a>
+  <div class="wrap foot">
+    <div>© 2026 Grzegorz Zabrzański Grexter <span class="sep">·</span> Kraków, Poland</div>
+    <div>NIP 6781767201 <span class="sep">·</span> REGON 543538420 <span class="sep">·</span> <a href="https://gregzab.github.io/grexter-privacy/" data-en="Privacy" data-pl="Prywatność">Privacy</a></div>
+  </div>
 </footer>
 
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- header shadow ---------- */
+  var hdr = document.getElementById('hdr');
+  var onScroll = function(){ hdr.classList.toggle('scrolled', window.scrollY > 10); };
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  /* ---------- language toggle ---------- */
+  var nodes = document.querySelectorAll('[data-en]');
+  function setLang(lang){
+    document.documentElement.lang = lang;
+    nodes.forEach(function(n){
+      var v = n.getAttribute('data-' + lang);
+      if(v != null) n.innerHTML = v;
+    });
+    document.querySelectorAll('.lang button').forEach(function(b){
+      b.classList.toggle('on', b.getAttribute('data-lang') === lang);
+    });
+    try{ localStorage.setItem('grx_lang', lang); }catch(e){}
+  }
+  document.querySelectorAll('.lang button').forEach(function(b){
+    b.addEventListener('click', function(){ setLang(b.getAttribute('data-lang')); });
+  });
+  var saved = 'en';
+  try{ saved = localStorage.getItem('grx_lang') || (navigator.language||'').slice(0,2) || 'en'; }catch(e){}
+  if(saved !== 'pl') saved = 'en';
+
+  /* ---------- typed hero command ---------- */
+  var typed = document.getElementById('typed');
+  var cmd = 'build automation';
+  if(reduce){ typed.textContent = cmd; }
+  else{
+    var i = 0;
+    (function tick(){
+      if(i <= cmd.length){ typed.textContent = cmd.slice(0,i); i++; setTimeout(tick, 60); }
+    })();
+  }
+
+  /* apply saved language after content is in place */
+  setLang(saved);
+
+  /* ---------- scroll reveals ---------- */
+  if(reduce){
+    document.querySelectorAll('.rv').forEach(function(n){ n.classList.add('in'); });
+  } else if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.rv').forEach(function(n){ io.observe(n); });
+  } else {
+    document.querySelectorAll('.rv').forEach(function(n){ n.classList.add('in'); });
+  }
+
+  /* ---------- neural network background ---------- */
+  var canvas = document.getElementById('neural');
+  var ctx = canvas.getContext('2d');
+  var W, H, DPR, nodes2 = [], pulses = [], mouse = {x:-9999, y:-9999};
+  var ACCENT = [143,160,217];
+
+  function size(){
+    DPR = Math.min(window.devicePixelRatio||1, 2);
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.style.width = W+'px';
+    canvas.style.height = H+'px';
+    canvas.width = W*DPR; canvas.height = H*DPR;
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+  }
+  function build(){
+    var area = W*H;
+    var count = Math.max(34, Math.min(90, Math.round(area/22000)));
+    nodes2 = [];
+    for(var i=0;i<count;i++){
+      nodes2.push({
+        x:Math.random()*W, y:Math.random()*H,
+        vx:(Math.random()-.5)*.22, vy:(Math.random()-.5)*.22,
+        r:Math.random()*1.3+.7
+      });
+    }
+  }
+  var LINK = 150;
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    // edges
+    for(var i=0;i<nodes2.length;i++){
+      var a = nodes2[i];
+      a.x+=a.vx; a.y+=a.vy;
+      if(a.x<0||a.x>W) a.vx*=-1;
+      if(a.y<0||a.y>H) a.vy*=-1;
+      for(var j=i+1;j<nodes2.length;j++){
+        var b = nodes2[j];
+        var dx=a.x-b.x, dy=a.y-b.y, d=Math.sqrt(dx*dx+dy*dy);
+        if(d<LINK){
+          var al=(1-d/LINK)*.14;
+          ctx.strokeStyle='rgba('+ACCENT[0]+','+ACCENT[1]+','+ACCENT[2]+','+al+')';
+          ctx.lineWidth=.6;
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        }
+      }
+      // mouse proximity glow
+      var mdx=a.x-mouse.x, mdy=a.y-mouse.y, md=Math.sqrt(mdx*mdx+mdy*mdy);
+      var near = md<170;
+      // nodes
+      ctx.beginPath();
+      ctx.fillStyle = near
+        ? 'rgba('+ACCENT[0]+','+ACCENT[1]+','+ACCENT[2]+','+(0.85-md/260)+')'
+        : 'rgba(120,130,165,.42)';
+      ctx.arc(a.x,a.y,a.r + (near?1.1:0),0,6.283); ctx.fill();
+      if(near){
+        ctx.strokeStyle='rgba('+ACCENT[0]+','+ACCENT[1]+','+ACCENT[2]+','+(0.18-md/1400)+')';
+        ctx.lineWidth=.6;
+        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(mouse.x,mouse.y); ctx.stroke();
+      }
+    }
+    // signal pulses traveling along random links
+    for(var p=pulses.length-1;p>=0;p--){
+      var pu=pulses[p]; pu.t+=pu.sp;
+      if(pu.t>=1){ pulses.splice(p,1); continue; }
+      var n1=nodes2[pu.a], n2=nodes2[pu.b];
+      if(!n1||!n2){ pulses.splice(p,1); continue; }
+      var px=n1.x+(n2.x-n1.x)*pu.t, py=n1.y+(n2.y-n1.y)*pu.t;
+      var g=ctx.createRadialGradient(px,py,0,px,py,5);
+      g.addColorStop(0,'rgba('+ACCENT[0]+','+ACCENT[1]+','+ACCENT[2]+',.9)');
+      g.addColorStop(1,'rgba('+ACCENT[0]+','+ACCENT[1]+','+ACCENT[2]+',0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(px,py,5,0,6.283); ctx.fill();
+    }
+    raf=requestAnimationFrame(frame);
+  }
+  function spawnPulse(){
+    if(document.hidden) return;
+    if(nodes2.length>1){
+      var a=(Math.random()*nodes2.length)|0, b=(Math.random()*nodes2.length)|0;
+      if(a!==b) pulses.push({a:a,b:b,t:0,sp:.006+Math.random()*.008});
+    }
+    setTimeout(spawnPulse, 1300+Math.random()*2200);
+  }
+
+  var raf;
+  if(!reduce){
+    size(); build();
+    window.addEventListener('mousemove', function(e){ mouse.x=e.clientX; mouse.y=e.clientY; }, {passive:true});
+    window.addEventListener('mouseout', function(){ mouse.x=-9999; mouse.y=-9999; });
+    window.addEventListener('resize', function(){ size(); build(); });
+    document.addEventListener('visibilitychange', function(){
+      if(document.hidden){ cancelAnimationFrame(raf); }
+      else{ raf=requestAnimationFrame(frame); }
+    });
+    raf=requestAnimationFrame(frame);
+    setTimeout(spawnPulse, 1800);
+  } else {
+    // static render for reduced motion
+    size(); build(); frame(); cancelAnimationFrame(raf);
+  }
+})();
+</script>
 </body>
 </html>
