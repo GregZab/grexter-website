@@ -107,8 +107,7 @@
   .sec-head h2{font-size:clamp(26px,3.6vw,40px);font-weight:600;letter-spacing:-.015em}
 
   /* capabilities grid */
-  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:14px;overflow:hidden}
-  @media(max-width:620px){.grid{grid-template-columns:1fr}}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:14px;overflow:hidden}
   .card{background:var(--ink-2);padding:34px 30px;transition:.3s;position:relative}
   .card:hover{background:var(--ink-3)}
   .card .k{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:18px;display:flex;align-items:center;gap:9px}
@@ -122,7 +121,7 @@
 
   /* work / case readouts */
   .case{border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,var(--ink-2),var(--ink));overflow:hidden;margin-bottom:22px;transition:.3s}
-  .case:hover{border-color:var(--accent-dim);box-shadow:0 14px 44px rgba(0,0,0,.45);transform:translateY(-2px)}
+  .case:hover{border-color:var(--accent-dim);box-shadow:0 10px 40px rgba(0,0,0,.4)}
   .case-bar{display:flex;align-items:center;gap:8px;padding:13px 20px;border-bottom:1px solid var(--line-soft);font-family:var(--mono);font-size:12px;color:var(--text-3)}
   .case-bar .d{width:11px;height:11px;border-radius:50%;background:var(--line)}
   .case-bar .d:nth-child(1){background:#2a2f3d}
@@ -136,30 +135,6 @@
   .metrics div:last-child{border:none;margin:0;padding:0}
   .metrics .v{display:block;font-size:22px;color:var(--text);font-weight:500}
   .metrics .l{font-size:11px;color:var(--text-3);letter-spacing:.08em;text-transform:uppercase}
-
-  /* case visual panels */
-  .case-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;padding:30px 28px}
-  .case-text{min-width:0}
-  .case-visual{position:relative;border:1px solid var(--line-soft);border-radius:11px;overflow:hidden;background:var(--ink-3);aspect-ratio:4/3}
-  @media(max-width:780px){.case-grid{grid-template-columns:1fr;gap:22px;padding:26px 22px 28px}.case-visual{aspect-ratio:16/10}}
-  .cv-photo img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.9) brightness(.97)}
-  .cv-photo::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(10,12,18,.16),transparent 32%,rgba(10,12,18,.5)),radial-gradient(120% 85% at 0% 0%,var(--accent-glow),transparent 55%)}
-  .cv-term,.cv-wave{font-family:var(--mono);background:linear-gradient(180deg,var(--ink-2),var(--ink))}
-  .cv-term{display:flex;flex-direction:column}
-  .cv-term .h{padding:9px 14px;border-bottom:1px solid var(--line-soft);font-size:10.5px;color:var(--text-3);letter-spacing:.05em;display:flex;align-items:center;gap:7px}
-  .cv-term .h i{width:8px;height:8px;border-radius:50%;background:var(--line)}
-  .cv-term .b{flex:1;padding:18px 16px;font-size:12.5px;line-height:1.85;display:flex;flex-direction:column;gap:10px;justify-content:center}
-  .cv-term .q{color:var(--text);font-weight:500}.cv-term .q::before{content:"? ";color:var(--accent)}
-  .cv-term .a{color:var(--text-2);padding-left:13px;border-left:1px solid var(--accent-dim)}
-  .cv-term .a b{color:var(--accent);font-weight:500}
-  .cv-term .ok{color:var(--accent-dim);font-size:11px;letter-spacing:.04em;margin-top:4px;padding-top:10px;border-top:1px solid var(--line-soft)}
-  .cv-wave{padding:0 18px;display:flex;flex-direction:column;justify-content:center;gap:13px}
-  .cv-wave .bars{display:flex;align-items:flex-end;gap:3px;height:52px}
-  .cv-wave .bars i{flex:1;border-radius:2px;background:var(--line);min-width:2px}
-  .cv-wave .bars i.on{background:linear-gradient(180deg,var(--accent),var(--accent-dim))}
-  .cv-wave .tr{font-size:12px;color:var(--text-2);line-height:1.65}.cv-wave .tr b{color:var(--text);font-weight:500}
-  .cv-wave .meta{display:flex;flex-wrap:wrap;gap:14px;font-size:10.5px;color:var(--text-3);letter-spacing:.05em;border-top:1px solid var(--line-soft);padding-top:11px}
-  .cv-wave .meta b{color:var(--accent-dim);font-weight:500}
 
   /* stack */
   .stack{border:1px solid var(--line);border-radius:14px;background:var(--ink-2);overflow:hidden;font-family:var(--mono)}
@@ -285,68 +260,75 @@
 
       <div class="case rv">
         <div class="case-bar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="fn">case_01_marketplace.log</span></div>
-        <div class="case-grid">
-          <div class="case-text">
-            <span class="id">// multi-marketplace operation</span>
-            <h3 data-en="A picture-frame brand, run by software" data-pl="Marka ramek prowadzona przez software">A picture-frame brand, run by software</h3>
-            <p data-en="Designed and operate a consumer brand across six Amazon marketplaces. Automated listings, pan-EU inventory, repricing, and EU product compliance (GPSR, GS1) &mdash; coordinated end-to-end without a manual ops team."
-               data-pl="Zaprojektowali&#347;my i prowadzimy mark&#281; konsumenck&#261; na sze&#347;ciu marketplace&#39;ach Amazon. Zautomatyzowane listingi, magazyn pan-EU, repricing i zgodno&#347;&#263; produktowa UE (GPSR, GS1) &mdash; koordynowane end-to-end bez r&#281;cznego zespo&#322;u operacyjnego.">Designed and operate a consumer brand across six Amazon marketplaces. Automated listings, pan-EU inventory, repricing, and EU product compliance (GPSR, GS1) &mdash; coordinated end-to-end without a manual ops team.</p>
-            <div class="metrics">
-              <div><span class="v">6</span><span class="l" data-en="marketplaces" data-pl="marketplace&#39;y">marketplaces</span></div>
-              <div><span class="v">100s</span><span class="l" data-en="of SKUs" data-pl="SKU">of SKUs</span></div>
-              <div><span class="v">auto</span><span class="l" data-en="compliance" data-pl="zgodno&#347;&#263;">compliance</span></div>
-            </div>
-          </div>
-          <div class="case-visual cv-photo">
-            <img src="assets/case-frame.jpg" width="1000" height="750" loading="lazy" alt="A framed print on a desk — the picture-frame brand we operate">
+        <div class="case-body">
+          <span class="id">// multi-marketplace operation</span>
+          <h3 data-en="A picture-frame brand, run by software" data-pl="Marka ramek prowadzona przez software">A picture-frame brand, run by software</h3>
+          <p data-en="Designed and operate a consumer brand across six Amazon marketplaces. Automated listings, pan-EU inventory, repricing, and EU product compliance (GPSR, GS1) — coordinated end-to-end without a manual ops team."
+             data-pl="Zaprojektowaliśmy i prowadzimy markę konsumencką na sześciu marketplace'ach Amazon. Zautomatyzowane listingi, magazyn pan-EU, repricing i zgodność produktowa UE (GPSR, GS1) — koordynowane end-to-end bez ręcznego zespołu operacyjnego.">Designed and operate a consumer brand across six Amazon marketplaces. Automated listings, pan-EU inventory, repricing, and EU product compliance (GPSR, GS1) — coordinated end-to-end without a manual ops team.</p>
+          <div class="metrics">
+            <div><span class="v">6</span><span class="l" data-en="marketplaces" data-pl="marketplace'y">marketplaces</span></div>
+            <div><span class="v">100s</span><span class="l" data-en="of SKUs" data-pl="SKU">of SKUs</span></div>
+            <div><span class="v">auto</span><span class="l" data-en="compliance" data-pl="zgodność">compliance</span></div>
           </div>
         </div>
       </div>
 
       <div class="case rv">
         <div class="case-bar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="fn">case_02_brain.log</span></div>
-        <div class="case-grid">
-          <div class="case-text">
-            <span class="id">// document intelligence</span>
-            <h3 data-en="A searchable brain over years of files" data-pl="Wyszukiwalny m&#243;zg nad latami plik&#243;w">A searchable brain over years of files</h3>
-            <p data-en="An indexing pipeline over cloud drives and email with OCR and multilingual embeddings. Daily vectorization keeps it current; anyone can retrieve the exact answer from the entire corpus in natural language."
-               data-pl="Pipeline indeksuj&#261;cy dyski w chmurze i poczt&#281;, z OCR i wieloj&#281;zycznymi embeddingami. Codzienna wektoryzacja utrzymuje aktualno&#347;&#263;; ka&#380;dy mo&#380;e wydoby&#263; dok&#322;adn&#261; odpowied&#378; z ca&#322;ego korpusu naturalnym j&#281;zykiem.">An indexing pipeline over cloud drives and email with OCR and multilingual embeddings. Daily vectorization keeps it current; anyone can retrieve the exact answer from the entire corpus in natural language.</p>
-            <div class="metrics">
-              <div><span class="v">1000s</span><span class="l" data-en="of documents" data-pl="dokument&#243;w">of documents</span></div>
-              <div><span class="v">daily</span><span class="l" data-en="refresh" data-pl="od&#347;wie&#380;anie">refresh</span></div>
-              <div><span class="v">multi</span><span class="l" data-en="lingual" data-pl="j&#281;zyk">lingual</span></div>
-            </div>
-          </div>
-          <div class="case-visual cv-term" aria-hidden="true">
-            <div class="h"><i></i> brain_query.log</div>
-            <div class="b">
-              <div class="q" data-en="the signed supplier NDA from Q1" data-pl="podpisane NDA dostawcy z Q1">the signed supplier NDA from Q1</div>
-              <div class="a">match &rarr; <b>contracts/2026/nda&#8209;supplier.pdf</b> &middot; p.2</div>
-              <div class="a">also &rarr; <b>mail/2026&#8209;02/legal&#8209;thread.eml</b></div>
-              <div class="ok" data-en="&#10003; answer in 0.4s &middot; 11,482 docs searched" data-pl="&#10003; odpowied&#378; w 0.4s &middot; przeszukano 11&#8201;482 dok.">&#10003; answer in 0.4s &middot; 11,482 docs searched</div>
-            </div>
+        <div class="case-body">
+          <span class="id">// document intelligence</span>
+          <h3 data-en="A searchable brain over years of files" data-pl="Wyszukiwalny mózg nad latami plików">A searchable brain over years of files</h3>
+          <p data-en="An indexing pipeline over cloud drives and email with OCR and multilingual embeddings. Daily vectorization keeps it current; anyone can retrieve the exact answer from the entire corpus in natural language."
+             data-pl="Pipeline indeksujący dyski w chmurze i pocztę, z OCR i wielojęzycznymi embeddingami. Codzienna wektoryzacja utrzymuje aktualność; każdy może wydobyć dokładną odpowiedź z całego korpusu naturalnym językiem.">An indexing pipeline over cloud drives and email with OCR and multilingual embeddings. Daily vectorization keeps it current; anyone can retrieve the exact answer from the entire corpus in natural language.</p>
+          <div class="metrics">
+            <div><span class="v">1000s</span><span class="l" data-en="of documents" data-pl="dokumentów">of documents</span></div>
+            <div><span class="v">daily</span><span class="l" data-en="refresh" data-pl="odświeżanie">refresh</span></div>
+            <div><span class="v">multi</span><span class="l" data-en="lingual" data-pl="język">lingual</span></div>
           </div>
         </div>
       </div>
 
       <div class="case rv">
         <div class="case-bar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="fn">case_03_voice.log</span></div>
-        <div class="case-grid">
-          <div class="case-text">
-            <span class="id">// voice &amp; workflow automation</span>
-            <h3 data-en="Voice to clean text, for cents" data-pl="G&#322;os w czysty tekst, za grosze">Voice to clean text, for cents</h3>
-            <p data-en="A speech-to-text pipeline with LLM cleanup, re-architected to swap models on the fly and cut cost to a fraction of a cent per event &mdash; roughly a 7&times; reduction &mdash; with no loss in quality."
-               data-pl="Pipeline mowa-na-tekst z czyszczeniem przez LLM, przebudowany tak, by wymienia&#263; modele w locie i zbi&#263; koszt do u&#322;amka grosza za zdarzenie &mdash; oko&#322;o 7&times; taniej &mdash; bez utraty jako&#347;ci.">A speech-to-text pipeline with LLM cleanup, re-architected to swap models on the fly and cut cost to a fraction of a cent per event &mdash; roughly a 7&times; reduction &mdash; with no loss in quality.</p>
-            <div class="metrics">
-              <div><span class="v">~7&times;</span><span class="l" data-en="cheaper" data-pl="taniej">cheaper</span></div>
-              <div><span class="v">live</span><span class="l" data-en="in production" data-pl="na produkcji">in production</span></div>
-              <div><span class="v">multi</span><span class="l" data-en="lingual" data-pl="j&#281;zyk">lingual</span></div>
-            </div>
+        <div class="case-body">
+          <span class="id">// voice &amp; workflow automation</span>
+          <h3 data-en="Voice to clean text, for cents" data-pl="Głos w czysty tekst, za grosze">Voice to clean text, for cents</h3>
+          <p data-en="A speech-to-text pipeline with LLM cleanup, re-architected to swap models on the fly and cut cost to a fraction of a cent per event — roughly a 7× reduction — with no loss in quality."
+             data-pl="Pipeline mowa-na-tekst z czyszczeniem przez LLM, przebudowany tak, by wymieniać modele w locie i zbić koszt do ułamka grosza za zdarzenie — około 7× taniej — bez utraty jakości.">A speech-to-text pipeline with LLM cleanup, re-architected to swap models on the fly and cut cost to a fraction of a cent per event — roughly a 7× reduction — with no loss in quality.</p>
+          <div class="metrics">
+            <div><span class="v">~7×</span><span class="l" data-en="cheaper" data-pl="taniej">cheaper</span></div>
+            <div><span class="v">live</span><span class="l" data-en="in production" data-pl="na produkcji">in production</span></div>
+            <div><span class="v">multi</span><span class="l" data-en="lingual" data-pl="język">lingual</span></div>
           </div>
-          <div class="case-visual cv-wave" aria-hidden="true">
-            <div class="bars"><i class="on" style="height:14%"></i><i class="on" style="height:18%"></i><i class="on" style="height:20%"></i><i class="on" style="height:27%"></i><i class="on" style="height:28%"></i><i class="on" style="height:35%"></i><i class="on" style="height:38%"></i><i class="on" style="height:40%"></i><i class="on" style="height:48%"></i><i class="on" style="height:43%"></i><i class="on" style="height:57%"></i><i class="on" style="height:43%"></i><i class="on" style="height:65%"></i><i class="on" style="height:46%"></i><i class="on" style="height:70%"></i><i class="on" style="height:56%"></i><i class="on" style="height:72%"></i><i class="on" style="height:66%"></i><i class="on" style="height:71%"></i><i class="on" style="height:74%"></i><i class="on" style="height:68%"></i><i class="on" style="height:80%"></i><i class="on" style="height:61%"></i><i class="on" style="height:83%"></i><i class="on" style="height:53%"></i><i class="on" style="height:83%"></i><i class="on" style="height:58%"></i><i style="height:79%"></i><i style="height:63%"></i><i style="height:73%"></i><i style="height:66%"></i><i style="height:64%"></i><i style="height:67%"></i><i style="height:54%"></i><i style="height:63%"></i><i style="height:44%"></i><i style="height:58%"></i><i style="height:37%"></i><i style="height:50%"></i><i style="height:36%"></i><i style="height:40%"></i><i style="height:32%"></i><i style="height:30%"></i><i style="height:26%"></i><i style="height:21%"></i><i style="height:18%"></i></div>
-            <div class="tr" data-en="&ldquo;&hellip;and <b>ship the order by Friday</b>, confirmed.&rdquo;" data-pl="&bdquo;&hellip;i <b>wy&#347;lij zam&#243;wienie do pi&#261;tku</b>, potwierdzam.&rdquo;">&ldquo;&hellip;and <b>ship the order by Friday</b>, confirmed.&rdquo;</div>
-            <div class="meta"><span><b>$0.0004</b> / min</span><span><b>~7&times;</b> <span data-en="cheaper" data-pl="taniej">cheaper</span></span><span>PL &rarr; EN</span></div>
+        </div>
+      </div>
+
+      <div class="case rv">
+        <div class="case-bar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="fn">case_04_documenso.log</span></div>
+        <div class="case-body">
+          <span class="id">// self-hosted e-signature</span>
+          <h3 data-en="E-signatures we own, not rent" data-pl="Podpisy elektroniczne na własnym serwerze">E-signatures we own, not rent</h3>
+          <p data-en="Deployed and run a self-hosted electronic-signature platform (open-source Documenso) across three organizations we operate — replacing per-seat SaaS subscriptions with infrastructure fully under our control. Documents, signing flows and the audit trail stay on our own server, in the EU."
+             data-pl="Wdrożyliśmy i utrzymujemy własną platformę podpisu elektronicznego (open-source Documenso) dla trzech naszych organizacji — zamiast abonamentu SaaS per-user, infrastruktura w pełni pod kontrolą. Dokumenty, ścieżki podpisu i ślad audytowy zostają na własnym serwerze, w UE.">Deployed and run a self-hosted electronic-signature platform (open-source Documenso) across three organizations we operate — replacing per-seat SaaS subscriptions with infrastructure fully under our control. Documents, signing flows and the audit trail stay on our own server, in the EU.</p>
+          <div class="metrics">
+            <div><span class="v">3</span><span class="l" data-en="deployments" data-pl="wdrożenia">deployments</span></div>
+            <div><span class="v">self</span><span class="l" data-en="hosted" data-pl="hostowane">hosted</span></div>
+            <div><span class="v">EU</span><span class="l" data-en="data residency" data-pl="dane w UE">data residency</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case rv">
+        <div class="case-bar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="fn">case_05_mailer.log</span></div>
+        <div class="case-body">
+          <span class="id">// email automation</span>
+          <h3 data-en="An inbox that answers itself" data-pl="Skrzynka, która odpowiada sama">An inbox that answers itself</h3>
+          <p data-en="For a UK picture-frame manufacturer we built an AI agent that reads incoming customer email, drafts an on-brand reply with the right pricing and product detail, and routes anything ambiguous to a human. Built on their real inbox structure — no canned templates."
+             data-pl="Dla producenta ram obrazowych z UK zbudowaliśmy agenta AI, który czyta przychodzące maile od klientów, układa odpowiedź w tonie marki — z właściwą wyceną i szczegółami produktu — a niejednoznaczne sprawy przekazuje człowiekowi. Zbudowane na realnej strukturze ich skrzynki, bez sztywnych szablonów.">For a UK picture-frame manufacturer we built an AI agent that reads incoming customer email, drafts an on-brand reply with the right pricing and product detail, and routes anything ambiguous to a human. Built on their real inbox structure — no canned templates.</p>
+          <div class="metrics">
+            <div><span class="v">24/7</span><span class="l" data-en="triage" data-pl="triage">triage</span></div>
+            <div><span class="v">&lt;1min</span><span class="l" data-en="draft" data-pl="odpowiedź">draft</span></div>
+            <div><span class="v">human</span><span class="l" data-en="in loop" data-pl="w pętli">in loop</span></div>
           </div>
         </div>
       </div>
